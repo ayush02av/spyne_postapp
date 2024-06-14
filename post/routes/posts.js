@@ -1,7 +1,8 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const redis = require('redis');
+
+const Post = require('../models/post.js');
 
 const authenticateToken = require('../utility/middleware.js');
 const upload = require('../utility/storage.js');
@@ -16,17 +17,6 @@ const redisClient = redis.createClient({
 });
 redisClient.connect();
 redisClient.on('error', (err) => console.log('Redis Client Error', err));
-
-// Post schema
-const postSchema = new mongoose.Schema({
-    text: { type: String, required: true },
-    image: { type: String },
-    hashtags: [{ type: String }],
-    view_count: { type: Number, default: 0 },
-    createdOn: { type: Date, default: Date.now }
-});
-
-const Post = mongoose.model('Post', postSchema);
 
 // Create a post
 app.post('/posts', authenticateToken, upload.single('image'), async (req, res) => {

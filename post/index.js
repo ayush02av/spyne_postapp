@@ -7,6 +7,8 @@ const fs = require('node:fs');
 
 const discussionRouter = require('./routes/discussions.js');
 const postRouter = require('./routes/posts.js');
+const commentsRouter = require('./routes/comments.js');
+const likesRouter = require('./routes/likes.js');
 
 dotenv.config();
 
@@ -24,7 +26,9 @@ try {
 }
 
 app.use('/', discussionRouter);
-app.use('/', postRouter)
+app.use('/', postRouter);
+app.use('/', commentsRouter);
+app.use('/', likesRouter);
 
 // Start server
 const PORT = process.env.PORT || 3000;

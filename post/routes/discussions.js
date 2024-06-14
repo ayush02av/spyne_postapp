@@ -1,20 +1,14 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+const Discussion = require('../models/discussion.js');
 
 const authenticateToken = require('../utility/middleware.js');
 const upload = require('../utility/storage.js');
 
+dotenv.config();
+
 const app = express.Router();
-
-// Discussion schema
-const discussionSchema = new mongoose.Schema({
-    text: { type: String, required: true },
-    image: { type: String },
-    hashtags: [{ type: String }],
-    createdOn: { type: Date, default: Date.now }
-});
-
-const Discussion = mongoose.model('Discussion', discussionSchema);
 
 // Create a discussion
 app.post('/discussions', authenticateToken, upload.single('image'), async (req, res) => {
